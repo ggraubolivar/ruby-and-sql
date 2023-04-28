@@ -42,42 +42,70 @@ new_activity3.save
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
 
-activities = Activity.where({"salesperson_id" => darth[0]["id"], "contact_id" => tim[0]["id"],})
-puts "Activities between #{darth[0]["first_name"]} and #{tim[0]["first_name"]}:"
-for activity in activities
-    puts " -- #{activity["note"]}" 
-end
-     
-#     "Acitivities between #{darth[0]["first_name"] darth[0]["last_name"]} and #{tim[0]["first_name"] tim[0]["last_name"]}:"
-#     puts " - #{note}"
+# activities = Activity.where({"salesperson_id" => darth[0]["id"], "contact_id" => tim[0]["id"],})
+# puts "Activities between #{darth[0]["first_name"]} and #{tim[0]["first_name"]} #{tim[0]["last_name"]}:"
+# for activity in activities
+#     puts " -- #{activity["note"]}" 
 # end
 
-# ---------------------------------
-# Activities between Ben and Tim Cook:
-# - quick checkin over facetime
-# - met at Cupertino
+# # ---------------------------------
+# # Activities between Ben and Tim Cook:
+# # - quick checkin over facetime
+# # - met at Cupertino
 
-# CHALLENGE:
-# 3. Similar to above, but display all of the activities for the salesperson
-# across all contacts (sample output below):
+# # CHALLENGE:
 
-# ---------------------------------
-# Ben's Activities:
-# Tim Cook - quick checkin over facetime
-# Tim Cook - met at Cupertino
-# Jeff Bezos - met at Blue Origin HQ
+# # 3. Similar to above, but display all of the activities for the salesperson
+# # across all contacts (sample output below):
 
-# 3a. Can you include the contact's company?
+# activities = Activity.where({"salesperson_id" => darth[0]["id"]})
+# puts "#{darth[0]["first_name"]}'s activities:"
+# for activity in activities
+#     contact_id = activity["contact_id"]
+#     contact = Contact.find_by({"id" => contact_id})
+#     contact_name = contact["first_name"]+" "+contact["last_name"]
+#     puts "-- #{contact_name} - #{activity["note"]}"
+# end
 
-# ---------------------------------
-# Ben's Activities:
-# Tim Cook (Apple) - quick checkin over facetime
-# Tim Cook (Apple) - met at Cupertino
-# Jeff Bezos (Amazon) - met at Blue Origin HQ
+# # # ---------------------------------
+# # # Ben's Activities:
+# # # Tim Cook - quick checkin over facetime
+# # # Tim Cook - met at Cupertino
+# # # Jeff Bezos - met at Blue Origin HQ
 
-# CHALLENGE:
-# 4. How many activities does each salesperson have?
+# # # 3a. Can you include the contact's company?
 
-# ---------------------------------
-# Ben Block: 3 activities
-# Brian Eng: 0 activities
+# activities = Activity.where({"salesperson_id" => darth[0]["id"]})
+# puts "#{darth[0]["first_name"]}'s activities:"
+# for activity in activities
+#     contact_id = activity["contact_id"]
+#     contact = Contact.find_by({"id" => contact_id})
+#         contact_name = contact["first_name"]+" "+contact["last_name"]
+#         contact_company_id = contact["company_id"]
+#     company = Company.find_by({"id" => contact_company_id})
+#         company_name = company["name"]
+#     puts "-- #{contact_name} (#{company_name}) - #{activity["note"]}"
+# end
+
+# # ---------------------------------
+# # Ben's Activities:
+# # Tim Cook (Apple) - quick checkin over facetime
+# # Tim Cook (Apple) - met at Cupertino
+# # Jeff Bezos (Amazon) - met at Blue Origin HQ
+
+# # CHALLENGE:
+# # 4. How many activities does each salesperson have?
+
+puts "----------------------"
+salespeople = Salesperson.all
+for salesperson in salespeople
+    salesperson_name = salesperson["first_name"]+" "+salesperson["last_name"]
+    salesperson_id = salesperson["id"]
+    activities = Activity.where({"salesperson_id" => salesperson_id})
+    activity_count = activities.count
+    puts "#{salesperson_name}: #{activity_count} activities"
+end
+
+# # ---------------------------------
+# # Ben Block: 3 activities
+# # Brian Eng: 0 activities
