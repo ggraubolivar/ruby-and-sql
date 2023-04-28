@@ -17,8 +17,40 @@ Activity.destroy_all
 # 1. insert 3 rows in the activities table with relationships to
 # a single salesperson and 2 different contacts
 
+darth = Salesperson.where({"first_name" => "Darth", "last_name" => "Vader"})
+tim = Contact.where({"first_name" => "Tim", "last_name" => "Cook"})
+craig = Contact.where({"first_name" => "Craig"})
+
+new_activity = Activity.new
+    new_activity["salesperson_id"] = darth[0]["id"]
+    new_activity["contact_id"] = tim[0]["id"]
+    new_activity["note"] = "2023-01-01 Sold 100,000 droids to the human Tim Cook."
+new_activity.save
+
+new_activity2 = Activity.new
+    new_activity2["salesperson_id"] = darth[0]["id"]
+    new_activity2["contact_id"] = craig[0]["id"]
+    new_activity2["note"] = "2023-01-01 Sold 25,000 weapons to the underling of Tim Cook, Craig."
+new_activity2.save
+
+new_activity3 = Activity.new
+    new_activity3["salesperson_id"] = darth[0]["id"]
+    new_activity3["contact_id"] = tim[0]["id"]
+    new_activity3["note"] = "2023-02-01 Called back 20,000 droids due to defects!"
+new_activity3.save
+
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
+
+activities = Activity.where({"salesperson_id" => darth[0]["id"], "contact_id" => tim[0]["id"],})
+puts "Activities between #{darth[0]["first_name"]} and #{tim[0]["first_name"]}:"
+for activity in activities
+    puts " -- #{activity["note"]}" 
+end
+     
+#     "Acitivities between #{darth[0]["first_name"] darth[0]["last_name"]} and #{tim[0]["first_name"] tim[0]["last_name"]}:"
+#     puts " - #{note}"
+# end
 
 # ---------------------------------
 # Activities between Ben and Tim Cook:
